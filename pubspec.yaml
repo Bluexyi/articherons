@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  #pytorch_mobile: ^0.1.0
   image_picker: ^0.7.4
   flutter:
     sdk: flutter
