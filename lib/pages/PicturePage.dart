@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'package:articherons/models/Info.dart';
+import 'package:articherons/models/ResponseModel.dart';
 import 'package:articherons/pages/ResPage.dart';
+import 'package:articherons/services/predictService.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PicturePage extends StatefulWidget {
-
   final Info info;
   PicturePage({Key key, @required this.info}) : super(key: key);
 
@@ -14,21 +15,43 @@ class PicturePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<PicturePage> {
-
   File _image;
+  var responseModel;
   final picker = ImagePicker();
-  
+  bool imageTraited = false;
 
   _openGalery(BuildContext context) async {
+    this.imageTraited = false;
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     this.setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        /*  predictImage(_image).then((res) {
+          responseModel = res;
+          this.imageTraited = true;
+        });*/
       } else {
         print('No image selected.');
       }
     });
     Navigator.of(context).pop();
+  }
+
+  _predict(File image) {
+    predictImage(image).then((res) {
+      responseModel = res;
+      this.imageTraited = true;
+      Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResPage(
+          image: _image,
+          info: widget.info,
+          responseModel: responseModel,
+        ),
+      ),
+    );
+    });
   }
 
   _openCamera(BuildContext context) async {
@@ -77,6 +100,18 @@ class _HomePageState extends State<PicturePage> {
   }
 
   Widget _decideImageView() {
+    if (_image == null) {
+      return Text("Aucune image selectionnée");
+    } else {
+      return Image.file(
+        _image,
+        width: 250,
+        height: 250,
+      );
+    }
+  }
+
+  Widget _decideValidationButton() {
     if (_image == null) {
       return Text("Aucune image selectionnée");
     } else {
@@ -148,17 +183,23 @@ class _HomePageState extends State<PicturePage> {
                     onPrimary: Colors.white, // foreground
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ResPage(image: _image, info: widget.info,),
-                      ),
-                    );
+                    _predict(_image);
                   },
                   child: Text(
                     "Valider",
                   ),
                 ),
+                /*  if (!imageTraited)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.grey, // background
+                      onPrimary: Colors.white, // foreground
+                    ),
+                    onPressed: () {},
+                    child: Text(
+                      "Valider",
+                    ),
+                  ),*/
               ],
             ),
           ),

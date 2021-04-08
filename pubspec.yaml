@@ -21,11 +21,12 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  #pytorch_mobile: ^0.1.0
+  http: ^0.13.1
+  http_parser: ^4.0.0
+  pytorch_mobile: ^0.1.0
   image_picker: ^0.7.4
   flutter:
     sdk: flutter
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

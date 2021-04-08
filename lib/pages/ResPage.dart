@@ -1,13 +1,17 @@
 import 'dart:io';
 
 import 'package:articherons/models/Info.dart';
+import 'package:articherons/models/ResponseModel.dart';
 import 'package:flutter/material.dart';
+import 'package:pytorch_mobile/pytorch_mobile.dart';
 
 class ResPage extends StatelessWidget {
+  String _prediction = '';
+  final ResponseModel responseModel;
   final File image;
   final Info info;
 
-  ResPage({Key key, @required this.image, this.info}) : super(key: key);
+  ResPage({Key key, @required this.image, this.info, this.responseModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +83,7 @@ class ResPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "450",
+                              responseModel.nbBillons.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 25),
                             ),
