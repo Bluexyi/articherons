@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:articherons/models/Info.dart';
 import 'package:articherons/models/ResponseModel.dart';
+import 'package:articherons/services/getImageIA.dart';
 import 'package:flutter/material.dart';
 import 'package:pytorch_mobile/pytorch_mobile.dart';
 
@@ -11,7 +12,6 @@ class ResPage extends StatelessWidget {
   final ResponseModel responseModel;
   final File image;
   final Info info;
-  //double volume =  3.14 * (info.diametre/2)^2 * longueur * nb_billon;
 
   ResPage({Key key, @required this.image, this.info, this.responseModel})
       : super(key: key);

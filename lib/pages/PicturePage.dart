@@ -2,10 +2,10 @@ import 'dart:io';
 import 'package:articherons/models/Info.dart';
 import 'package:articherons/models/ResponseModel.dart';
 import 'package:articherons/pages/ResPage.dart';
+import 'package:articherons/services/getImageIA.dart';
 import 'package:articherons/services/predictService.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
 class PicturePage extends StatefulWidget {
   final Info info;
   PicturePage({Key key, @required this.info}) : super(key: key);
@@ -38,20 +38,29 @@ class _HomePageState extends State<PicturePage> {
   }
 
   _predict(File image) {
-    predictImage(image).then((res) {
-      responseModel = res;
-      this.imageTraited = true;
-      Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ResPage(
-          image: _image,
-          info: widget.info,
-          responseModel: responseModel,
-        ),
-      ),
+
+    predictImage(image).then(
+      (res) {
+        responseModel = res;
+        this.imageTraited = true;
+        print("image name = " + res.imageName);
+        fileFromImageUrl(res.imageName).then(
+          (res2) {
+            print(res2.toString());
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ResPage(
+                  image: res2,
+                  info: widget.info,
+                  responseModel: responseModel,
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
-    });
   }
 
   _openCamera(BuildContext context) async {
