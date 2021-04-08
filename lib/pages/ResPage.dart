@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:articherons/models/Info.dart';
@@ -10,8 +11,10 @@ class ResPage extends StatelessWidget {
   final ResponseModel responseModel;
   final File image;
   final Info info;
+  //double volume =  3.14 * (info.diametre/2)^2 * longueur * nb_billon;
 
-  ResPage({Key key, @required this.image, this.info, this.responseModel}) : super(key: key);
+  ResPage({Key key, @required this.image, this.info, this.responseModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +58,9 @@ class ResPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "m3",
+                              info.getVolume(responseModel.nbBillons).toStringAsFixed(2) + "m3",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 25),
+                                  fontWeight: FontWeight.bold, fontSize: 20),
                             ),
                             Text(
                               "Volume du billon",
@@ -85,7 +88,7 @@ class ResPage extends StatelessWidget {
                             Text(
                               responseModel.nbBillons.toString(),
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 25),
+                                  fontWeight: FontWeight.bold, fontSize: 20),
                             ),
                             Text(
                               "Billons reconnus",
@@ -128,11 +131,19 @@ class ResPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "Référent : " +
-                            info.referent +
-                            " de " +
-                            info.lgBillon.toString() +
-                            "mêtre",
+                        "Référent : " + info.referent, 
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Longeur billon : " + info.lgBillon.toString(),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Diamètre moyen : " + info.diametre.toString(),
                       ),
                     ),
                   ],
