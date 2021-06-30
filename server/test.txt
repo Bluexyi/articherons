@@ -1,0 +1,4 @@
+try post an image to predict with test model
+curl -X POST -H "Content-Type: multipart/form-data" http://127.0.0.1:5000/predict -F "file=@Green_eyes_kitten.jpg"
+
+
